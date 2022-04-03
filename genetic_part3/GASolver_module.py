@@ -77,6 +77,7 @@ class GASolver:
         pop_size = len(self._population)
 
         # sort the population by descending order
+        # print(self._population)
         self._population.sort(reverse=True)
         l_pop = self._population
         # extract the population with the highest fitness
@@ -115,6 +116,7 @@ class GASolver:
               threshold_fitness
         """
         iteration = 0
-        while iteration != max_nb_of_generations and self.getBestIndividual().fitness < threshold_fitness:
+        while iteration != max_nb_of_generations:
             iteration += 1
             self.evolveForOneGeneration()
+# and self.getBestIndividual().fitness < threshold_fitness:

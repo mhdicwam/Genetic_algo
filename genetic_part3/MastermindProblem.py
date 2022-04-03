@@ -51,7 +51,7 @@ if __name__ == '__main__':
     solver = GASolver(problem)
 
     solver.resetPopulation()
-    solver.evolveUntil(threshold_fitness=match.maxScore())
+    solver.evolveUntil()
 
     print(f'Shhhh here the secret code {match._secret}')
     print(
