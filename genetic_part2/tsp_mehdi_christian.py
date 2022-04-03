@@ -19,8 +19,7 @@ def crossover_tsp(p1: list, p2: list) -> list:
     chromosome = cities_module.defaultRoad(cities)
     ch1_tmp = list(set(p1[:cross_point] + p2[cross_point:]))  # get the unique values
     ch1 = ch1_tmp + [idx_city for idx_city in chromosome if
-                     idx_city not in ch1_tmp]  # add the cities missing after rooting
-    # out the duplicates
+                     idx_city not in ch1_tmp]  # add the cities missing after rooting out the duplicates
     ch2_tmp = list(set(p2[:cross_point] + p1[cross_point:]))
     ch2 = ch2_tmp + [idx_city for idx_city in chromosome if idx_city not in ch2_tmp]
     return [ch1, ch2]
@@ -84,7 +83,7 @@ class GASolver:
             fitness = -cities_module.roadLength(cities, chromosome)
             new_individual = Individual(chromosome, fitness)
             self._population.append(new_individual)
-        
+
     def test(self):
         self._population.sort(reverse=True)
         print(self._population)
@@ -140,6 +139,3 @@ class GASolver:
         while iteration != max_nb_of_generations:
             iteration += 1
             self.evolveForOneGeneration()
-            if iteration < 100:
-                print(iteration)
-                print(self._population)
