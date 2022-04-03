@@ -35,7 +35,8 @@ def mutation(this_mutation_rate, this_children):
 
 
 class GASolver:
-    def __init__(self, match: MastermindMatch, selection_rate=0.5, mutation_rate=0.1):  #
+    def __init__(self, match: MastermindMatch, selection_rate=0.5, mutation_rate=0.1):
+
         """Initializes an instance of a GASolver for a given GAProblem
 
         Args:
