@@ -1,11 +1,18 @@
 # TSP
 # chromosome = [list_of_all_cities]
 # fitness = the shorter the road the higher the fitness
-
+from genetic_part2 import cities_module
 from tsp_mehdi_christian import GASolver, crossover_tsp
 
+cities = cities_module.loadCities("cities.txt")
+
 solver = GASolver()
-l = crossover_tsp([4, 2, 3, 0, 5, 6, 8], [3, 4, 5, 8, 1, 2, 6])
-print(l)
-# solver.resetPopulation()
-# solver.test()
+solver.resetPopulation()
+
+solver.test()
+solver.evolveUntil()
+
+# You can plot the best path found by calling:
+best = solver.getBestIndividual()
+solver.showGenerationSummary()
+cities_module.drawCities(cities, best.chromosome)

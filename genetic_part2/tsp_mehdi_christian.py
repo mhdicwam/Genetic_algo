@@ -16,15 +16,14 @@ def crossover_tsp(p1: list, p2: list) -> list:
     # random cross point
     cross_point = r.randint(1, len(p1) - 1)
     # p2[:cross_point]
+    chromosome = cities_module.defaultRoad(cities)
     ch1_tmp = list(set(p1[:cross_point] + p2[cross_point:]))  # get the unique values
-    ch1 = ch1_tmp + [idx_city for idx_city in cities if idx_city not in ch1_tmp]  # add the cities missing after rooting
+    ch1 = ch1_tmp + [idx_city for idx_city in chromosome if
+                     idx_city not in ch1_tmp]  # add the cities missing after rooting
     # out the duplicates
     ch2_tmp = list(set(p2[:cross_point] + p1[cross_point:]))
-    ch2 = ch2_tmp + [idx_city for idx_city in cities if idx_city not in ch2_tmp]
+    ch2 = ch2_tmp + [idx_city for idx_city in chromosome if idx_city not in ch2_tmp]
     return [ch1, ch2]
-
-
-crossover_tsp([1, 2, 3, 4, 5, 6, 8], [3, 4, 5, 8, 1, 2, 6])
 
 
 # function to mutate the children
@@ -32,8 +31,12 @@ def mutation_tsp(this_mutation_rate, this_children):
     for i in range(len(this_children)):
         # check for a mutation
         if r.random() < this_mutation_rate:
-            # change the chromosome
-            this_children[i] = 1 - this_children[i]
+            # change the position of a random gene with another
+            k = r.randint(0, len(this_children) - 1)
+            tmp = this_children[i]
+            this_children[i] = this_children[k]
+            this_children[k] = tmp
+
     return this_children
 
 
@@ -71,17 +74,17 @@ class GASolver:
         self._mutation_rate = mutation_rate
         self._population = []
 
-    def resetPopulation(self, pop_size=50):
+    def resetPopulation(self, pop_size=52):
         """ Initialize the population with pop_size random Individuals """
         for i in range(pop_size):
             # chromosome : the index of the ordered list of the visited cities
             chromosome = cities_module.defaultRoad(cities)
             r.shuffle(chromosome)
-            # The shorter the road, the higher the is
+            # The shorter the road, the higher the fitness is
             fitness = -cities_module.roadLength(cities, chromosome)
             new_individual = Individual(chromosome, fitness)
             self._population.append(new_individual)
-
+        
     def test(self):
         self._population.sort(reverse=True)
         print(self._population)
@@ -102,39 +105,41 @@ class GASolver:
         # extract the population with the highest fitness
         l_pop = l_pop[0:(floor(pop_size * self._selection_rate))]
         # crossing and mutation of the childrens
-        for i in range(0, len(l_pop), 2):
+        for i in range(0, len(l_pop) - 1, 2):
             # select the parents two by two
             p1 = l_pop[i].chromosome
             p2 = l_pop[i + 1].chromosome
             for c in crossover_tsp(p1, p2):
                 c = mutation_tsp(self._mutation_rate, c)
+                # print(c)
                 fitness = -cities_module.roadLength(cities, c)
                 new_children = Individual(c, fitness)
                 l_pop.append(new_children)
         # update the population
         self._population = l_pop
 
+    def showGenerationSummary(self):
+        """ Print some debug information on the current state of the population """
+        print(f"the sorted populations : {self._population}")
+        print(f"cities : {cities}")
+        print(f"best individual :  {self.getBestIndividual()}")
+        print(f"population length : {len(self._population)}")
 
-def showGenerationSummary(self):
-    """ Print some debug information on the current state of the population """
-    print(f"population length : {len(self._population)}")
-    print(f"best individual :  {self.getBestIndividual()}")
+    def getBestIndividual(self):
+        """ Return the best Individual of the population """
+        best_individual = self._population[0]
+        return best_individual
 
-
-def getBestIndividual(self):
-    """ Return the best Individual of the population """
-    best_individual = self._population[0]
-    return best_individual
-
-
-def evolveUntil(self, max_nb_of_generations=500, threshold_fitness=None):
-    """ Launch the evolveForOneGeneration function until one of the two condition is achieved :
-        - Max nb of generation is achieved
-        - The fitness of the best Individual is greater than or equal to
-          threshold_fitness
-    """
-    iteration = 0
-    while iteration != max_nb_of_generations and self.getBestIndividual().fitness < threshold_fitness:
-        iteration += 1
-        self.evolveForOneGeneration()
-        print(iteration)
+    def evolveUntil(self, max_nb_of_generations=500):
+        """ Launch the evolveForOneGeneration function until one of the two condition is achieved :
+            - Max nb of generation is achieved
+            - The fitness of the best Individual is greater than or equal to
+              threshold_fitness
+        """
+        iteration = 0
+        while iteration != max_nb_of_generations:
+            iteration += 1
+            self.evolveForOneGeneration()
+            if iteration < 100:
+                print(iteration)
+                print(self._population)

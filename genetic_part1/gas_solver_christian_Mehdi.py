@@ -19,7 +19,7 @@ def crossover(p1: list, p2: list) -> list:
     # random cross point
     cross_point = r.randint(1, len(p1) - 1)
     # p2[:cross_point]
-    ch1 = p1[:cross_point] + p2[cross_point:]  # get the unique values
+    ch1 = p1[:cross_point] + p2[cross_point:]
     ch2 = p2[:cross_point] + p1[cross_point:]
     return [ch1, ch2]
 

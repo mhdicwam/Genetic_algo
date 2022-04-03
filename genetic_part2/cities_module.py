@@ -9,7 +9,7 @@ salesperson problem.
 This module is accompanied of a cities.txt file, containing a list of
 2D coordinates representing different cities.
 """
-
+import numpy as np
 import matplotlib.pyplot as plt
 from random import shuffle
 
@@ -34,6 +34,7 @@ def drawCities(cities, road=None):
     """ Plot the cities and the trajectory """
     citiesCoordinates = list(zip(*cities))
     plt.figure()
+    print("IAAAM in the plot function")
     plt.scatter(citiesCoordinates[0], citiesCoordinates[1], color="red")
     if road is not None:
         roadCities = [cities[c] for c in road]
@@ -42,24 +43,44 @@ def drawCities(cities, road=None):
         plt.plot(roadCitiesCoordinates[0], roadCitiesCoordinates[1])
         for i in range(len(roadCities)):
             plt.annotate(i, roadCities[i], xytext=(
-                3, 3), textcoords='offset points')
+                3, 3), textcoords='offset points'
+                         )
         plt.gca().set_aspect('equal')
-    plt.show
+    plt.show()
+    # plt.show(block=True)
+    # plt.interactive(False)
 
 
 def distance(city1, city2):
     """ Euclidian distance between two cities """
-    return ((city1[0] - city2[0])**2 + (city1[1] - city2[1])**2)**0.5
+    return ((city1[0] - city2[0]) ** 2 + (city1[1] - city2[1]) ** 2) ** 0.5
 
 
 def roadLength(cities, road):
     """ Calculate the length of the road """
     roadCities = [cities[c] for c in road]
     total = 0
-    for i in range(len(roadCities)-1):
-        total += distance(roadCities[i], roadCities[i+1])
+    for i in range(len(roadCities) - 1):
+        total += distance(roadCities[i], roadCities[i + 1])
     total += distance(roadCities[-1], roadCities[0])
     return total
+
+
+def draw_test_plot():
+    x = np.linspace(0, 6.28, 100)
+
+    plt.plot(x, x ** 0.5, label='square root')
+    plt.plot(x, np.sin(x), label='sinc')
+
+    plt.xlabel('x label')
+    plt.ylabel('y label')
+
+    plt.title("test plot")
+
+    plt.legend()
+
+    plt.show(block=True)
+    plt.interactive(False)
 
 
 if __name__ == '__main__':
