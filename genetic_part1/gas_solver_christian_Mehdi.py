@@ -97,14 +97,16 @@ class GASolver:
         best_individual = self._population[0]
         return best_individual
 
-    def evolveUntil(self, max_nb_of_generations=500, threshold_fitness=None):
-        """ Launch the evolveForOneGeneration function until one of the two condition is achieved :
-            - Max nb of generation is achieved
-            - The fitness of the best Individual is greater than or equal to
-              threshold_fitness
-        """
-        iteration = 0
-        while iteration != max_nb_of_generations and self.getBestIndividual().fitness < threshold_fitness:
-            iteration += 1
-            self.evolveForOneGeneration()
-            print(iteration)
+    def evolveUntil(self, ma)x_nb_of_generations = 500, threshold_fitness = None
+
+    ):
+    """ Launch the evolveForOneGeneration function until one of the two condition is achieved :
+        - Max nb of generation is achieved
+        - The fitness of the best Individual is greater than or equal to
+          threshold_fitness
+    """
+    iteration = 0
+    while iteration != max_nb_of_generations and self.getBestIndividual().fitness < threshold_fitness:
+        iteration += 1
+        self.evolveForOneGeneration()
+        print(iteration)
