@@ -9,7 +9,7 @@ Template file for your Exercise 3 submission
 """
 from GASolver_module import GAProblem
 
-from genetic_part2 import cities_module
+import cities_module
 import random as r
 
 from genetic_part2.cities_module import roadLength
@@ -21,17 +21,18 @@ class TSProblem(GAProblem):
     def __init__(self, this_cities):
         self.cities = this_cities
 
+    # method that generate a random solution ( chromosome)
     def getRandomChromosome(self):
         chromosome = cities_module.defaultRoad(self.cities)
         r.shuffle(chromosome)
         return chromosome
 
-    # The shorter the road, the higher the fitness is
-
+    # method that evaluate the fitness of a given chromosome
     def getFitness(self, this_chromosome):
         fitness = -cities_module.roadLength(self.cities, this_chromosome)
         return fitness
 
+    # methode that get
     def crossover(self, p1: list, p2: list) -> list:
         # random cross point
         cross_point = r.randint(1, len(p1) - 1)
@@ -44,7 +45,7 @@ class TSProblem(GAProblem):
         ch2 = ch2_tmp + [idx_city for idx_city in chromosome if idx_city not in ch2_tmp]
         return [ch1, ch2]
 
-    # function to mutate the children
+    # method that mutate the children
     def mutation(self, this_mutation_rate, this_children):
         for i in range(len(this_children)):
             # check for a mutation

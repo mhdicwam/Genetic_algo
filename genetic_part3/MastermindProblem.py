@@ -8,7 +8,7 @@ Template file for your Exercise 3 submission
 (GA solving Mastermind example)
 """
 from GASolver_module import GAProblem
-import genetic_part1.mastermind_module as mm
+import mastermind_module as mm
 import random as r
 
 
