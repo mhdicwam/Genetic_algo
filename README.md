@@ -43,7 +43,7 @@ broad view of how to decompose a generic genetic problem for a better understand
 to solve a Genetic problem with the GASolver_module you need to :
 
 * create functions that handles :  the generations of random solution, asses the fitness of a chromosome, the crossover
-  and the mutation in the context your genetic problem.
+  and the mutation in the context of your genetic problem.
 * create a class that take the GAProblem as a Parent and define the function that handles and respect the same naming as
   shown below :  
   ![alt text](assets/images/img.png)
